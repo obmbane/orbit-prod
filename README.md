@@ -14,7 +14,7 @@ Early stage. The current focus is a clickable UI prototype using dummy data. The
 
 | Path | Purpose |
 | --- | --- |
-| `web/` | UI prototype (Vite, React, TypeScript). *Coming in the first feature PR.* |
+| [`web/`](web/README.md) | UI prototype (Vite, React, TypeScript) |
 | `.github/workflows/` | GitHub Actions CI. *Coming later.* |
 | `deploy/` | Kubernetes manifests. *Coming once the UI is settled.* |
 

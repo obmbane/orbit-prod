@@ -1,6 +1,6 @@
-# ProductFlow web
+# Orbit web
 
-The ProductFlow UI prototype: Vite, React 18 and TypeScript. It runs entirely in the browser on dummy data; there is no backend yet.
+The Orbit UI prototype: Vite, React 18 and TypeScript. It runs entirely in the browser on dummy data; there is no backend yet.
 
 ## Requirements
 

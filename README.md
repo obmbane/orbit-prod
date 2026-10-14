@@ -1,6 +1,6 @@
-# ProductFlow
+# Orbit
 
-ProductFlow is a B2B SaaS application for Product Managers. It helps manage a product across its full lifecycle:
+Orbit is a B2B SaaS application for Product Managers. It helps manage a product across its full lifecycle:
 
 - **Product development**: Idea → Business Case → Discovery → Approval → Development → Launch
 - **Product maturity**: Introduction → Growth → Maturity → Decline → Retirement

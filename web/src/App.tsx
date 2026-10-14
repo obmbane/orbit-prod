@@ -26,7 +26,7 @@ export default function App() {
           <span className="brand-mark">
             <Layers size={16} />
           </span>
-          <span>ProductFlow</span>
+          <span>Orbit</span>
         </div>
         {NAV.map(({ to, label, icon: Icon }) => (
           <NavLink key={to} to={to} end={to === '/'} className={({ isActive }) => `nav-link${isActive ? ' active' : ''}`}>

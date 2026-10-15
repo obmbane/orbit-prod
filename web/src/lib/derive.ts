@@ -109,3 +109,8 @@ export function priorityOf(items: AttentionItem[]): Priority {
   if (!top) return 'Low';
   return top.score >= 80 ? 'High' : top.score >= 50 ? 'Medium' : 'Low';
 }
+
+export function stageProgress(product: Product, stage: (typeof DEV_STAGES)[number]) {
+  const requirements = product.requirements[stage];
+  return { complete: requirements.filter((r) => r.status === 'complete').length, total: requirements.length };
+}

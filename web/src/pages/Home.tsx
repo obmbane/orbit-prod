@@ -1,5 +1,4 @@
-import { Link } from 'react-router-dom';
-import { ChevronRight } from 'lucide-react';
+import ProductList from '../components/ProductList';
 import { usePortfolio } from '../portfolio-context';
 
 function greeting(): string {
@@ -32,22 +31,7 @@ export default function Home() {
           <h2 id="my-products">My Products</h2>
           <span className="muted small">{products.length} products</span>
         </div>
-        <div className="plist">
-          <div className="prow head" aria-hidden>
-            <span>Product</span>
-            <span>Category</span>
-            <span>Summary</span>
-            <span />
-          </div>
-          {products.map((product) => (
-            <Link key={product.id} to={`/products/${product.id}`} className="prow">
-              <span className="pname">{product.name}</span>
-              <span className="muted">{product.category}</span>
-              <span className="muted">{product.summary}</span>
-              <ChevronRight size={16} className="chev" aria-hidden />
-            </Link>
-          ))}
-        </div>
+        <ProductList products={products} />
       </section>
     </>
   );

@@ -483,6 +483,136 @@ a.lrow:hover {
   border-color: var(--border-strong);
 }
 
+/* Lifecycle decision */
+.actions-strip {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin: 12px 0;
+}
+
+.act-chip {
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--border-strong);
+  color: var(--muted);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 550;
+  background: transparent;
+}
+
+.act-chip.rec {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #07101f;
+}
+
+.act-chip.chosen {
+  border-color: #34d399;
+  color: #34d399;
+}
+
+button.act-chip {
+  cursor: pointer;
+}
+
+button.act-chip:hover {
+  color: var(--text);
+  border-color: var(--accent);
+}
+
+button.act-chip.picked {
+  border-color: var(--accent);
+  color: var(--text);
+  background: var(--accent-soft);
+}
+
+.grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.ev-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-top: 1px solid var(--border);
+  font-size: 13px;
+}
+
+.ev-row:first-of-type {
+  border-top: 0;
+}
+
+.ev-row .val.good {
+  color: #34d399;
+}
+
+.ev-row .val.bad {
+  color: #f87171;
+}
+
+ul.clean.bullets li {
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+ul.clean.bullets li svg {
+  flex: none;
+  margin-top: 3px;
+}
+
+.mode-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.mode {
+  text-align: left;
+  display: grid;
+  gap: 2px;
+  padding: 12px 14px;
+  background: var(--surface-2);
+  border: 1px solid var(--border-strong);
+  border-radius: 10px;
+  color: var(--text);
+  font: inherit;
+  cursor: pointer;
+}
+
+.mode:hover,
+.mode.on {
+  border-color: var(--accent);
+}
+
+.mode.on {
+  background: var(--accent-soft);
+}
+
+.checks {
+  display: grid;
+  gap: 8px;
+}
+
+.check-row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  font-size: 13px;
+}
+
+.check-row input {
+  width: auto;
+}
+
+.decision-line {
+  font-size: 18px;
+  margin: 8px 0;
+}
+
 /* Actions list */
 .nav-count {
   margin-left: auto;
@@ -1409,8 +1539,13 @@ a.prow:hover {
     grid-template-columns: repeat(3, 1fr);
   }
 
-  .grid-4 {
+  .grid-4,
+  .mode-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .grid-2 {
+    grid-template-columns: 1fr;
   }
 
   .signal {

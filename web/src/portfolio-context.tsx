@@ -3,7 +3,9 @@ import { createPortfolio, newProductRequirements, OWNER } from './data/portfolio
 import { addDaysIso } from './lib/dates';
 import { uid } from './lib/format';
 import { gateOf } from './lib/derive';
-import { ActionItem, ActivityEntry, DEV_STAGES, DevStage, MaturityStage, Portfolio, Priority, Product, RequirementStatus } from './types';
+import { newReview, normaliseDecision } from './lib/governance';
+import { GOVERNANCE_FOR_ACTION, recommend } from './lib/recommend';
+import { ActionItem, ActivityEntry, DEV_STAGES, DevStage, LifecycleAction, LifecycleDecision, MaturityStage, Portfolio, Priority, Product, RequirementStatus } from './types';
 
 const STORAGE_KEY = 'orbit.portfolio.v1';
 
@@ -45,6 +47,10 @@ export interface NewActionInput {
 }
 
 type Update = (portfolio: Portfolio) => Portfolio;
+
+export type LifecycleDecisionInput =
+  | { kind: 'accept' | 'modify'; chosen: LifecycleAction; recommended: LifecycleAction; rationale: string; followUps: string[] }
+  | { kind: 'reject' | 'investigate'; recommended: LifecycleAction; rationale: string };
 
 const withLog = (product: Product, e: ActivityEntry): Product => ({ ...product, activity: [e, ...product.activity] });
 
@@ -175,6 +181,57 @@ function makeActions(update: (fn: Update) => void, replace: (portfolio: Portfoli
           );
         }),
       );
+    },
+
+    /**
+     * Records the Product Manager's lifecycle decision. Accepting or modifying creates the chosen follow-up actions,
+     * and, if the action needs organisational approval, creates or links a governance review.
+     */
+    decideLifecycle(productId: string, input: LifecycleDecisionInput) {
+      update((portfolio) => {
+        const product = portfolio.products.find((p) => p.id === productId);
+        if (!product?.maturity) return portfolio;
+
+        const chosen = 'chosen' in input ? input.chosen : undefined;
+        const link = `/products/${productId}/decision`;
+        const newActions: ActionItem[] = [];
+        let reviews = portfolio.reviews;
+        let reviewId: string | undefined;
+
+        if (chosen && 'followUps' in input) {
+          input.followUps.forEach((title, i) =>
+            newActions.push(newAction({ productId, title, priority: i === 0 ? 'High' : 'Medium', due: addDaysIso(7 + i * 7), source: `Lifecycle decision: ${chosen}`, link })),
+          );
+          const governance = GOVERNANCE_FOR_ACTION[chosen];
+          if (governance) {
+            const existing = portfolio.reviews.find((r) => r.productId === productId && r.status !== 'decided' && normaliseDecision(r.decision) === normaliseDecision(governance));
+            if (existing) reviewId = existing.id;
+            else {
+              const rec = recommend(product, product.maturity);
+              const review = newReview(product, governance, `${rec.headline}. ${input.rationale}`, rec.risks);
+              reviews = [...reviews, { ...review, log: [entry('governance', 'Review created from lifecycle decision')] }];
+              reviewId = review.id;
+            }
+          }
+        }
+        if (input.kind === 'investigate')
+          newActions.push(newAction({ productId, title: `Investigate: ${input.rationale}`, priority: 'High', due: addDaysIso(7), source: 'Lifecycle decision: investigate further', link }));
+
+        const status: LifecycleDecision['status'] = { accept: 'accepted', modify: 'modified', reject: 'rejected', investigate: 'investigating' }[input.kind] as LifecycleDecision['status'];
+        const decision: LifecycleDecision = { status, recommended: input.recommended, chosen, rationale: input.rationale, decidedAt: new Date().toISOString(), stage: product.maturity, reviewId };
+        const verb = { accept: 'accepted', modify: 'modified', reject: 'rejected', investigate: 'deferred for investigation' }[input.kind];
+        const title = chosen ? `Lifecycle decision: ${chosen} (${verb})` : `Recommendation ${verb}`;
+
+        return {
+          ...mapProduct(portfolio, productId, (p) => withLog({ ...p, lifecycleDecision: decision }, entry('lifecycle', title, input.rationale))),
+          actions: [...portfolio.actions, ...newActions],
+          reviews,
+        };
+      });
+    },
+
+    reopenDecision(productId: string) {
+      update((portfolio) => mapProduct(portfolio, productId, (p) => withLog({ ...p, lifecycleDecision: undefined }, entry('lifecycle', 'Lifecycle decision reopened'))));
     },
 
     createAction(input: NewActionInput): string {

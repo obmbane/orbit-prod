@@ -84,10 +84,10 @@ What every later epic builds on. Only the shared portfolio is built up front. Sh
 
 *Goal: the Product Manager decides what to do with a live product, with the evidence in front of them.*
 
-- [ ] **E6-S1** *(brief #12)* As a Product Manager, I want to receive a recommended lifecycle action, **so that** I start from an evidence-based suggestion instead of a blank page when deciding what to do with a product.
+- [x] **E6-S1** *(brief #12)* As a Product Manager, I want to receive a recommended lifecycle action, **so that** I start from an evidence-based suggestion instead of a blank page when deciding what to do with a product.
   - One of Invest, Accelerate, Maintain, Optimise, Reposition, Consolidate, Harvest or Retire is recommended.
   - The recommendation shows its reasoning, key metrics and risks.
-- [ ] **E6-S2** *(brief #13)* As a Product Manager, I want to accept or change that recommendation, **so that** the final call is mine, my reasoning is captured, and the decision turns into follow-up work.
+- [x] **E6-S2** *(brief #13)* As a Product Manager, I want to accept or change that recommendation, **so that** the final call is mine, my reasoning is captured, and the decision turns into follow-up work.
   - I can accept, modify, reject or investigate further, and I record my reasoning.
   - The decision creates follow-up actions and is kept in the product's history.
   - Where organisational approval is needed, a governance review is created or linked.

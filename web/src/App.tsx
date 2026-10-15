@@ -7,6 +7,7 @@ import HomePage from './pages/Home';
 import Placeholder from './pages/Placeholder';
 import Actions from './pages/Actions';
 import Lifecycle from './pages/Lifecycle';
+import ProductDecision from './pages/ProductDecision';
 import ProductLifecycle from './pages/ProductLifecycle';
 import ComingSoon from './pages/ComingSoon';
 import ProductActivity from './pages/ProductActivity';
@@ -83,7 +84,7 @@ export default function App() {
               <Route path="overview" element={<ProductOverview />} />
               <Route path="development" element={<ProductDevelopment />} />
               <Route path="lifecycle" element={<ProductLifecycle />} />
-              <Route path="decision" element={<ComingSoon title="Lifecycle Decision" />} />
+              <Route path="decision" element={<ProductDecision />} />
               <Route path="governance" element={<ComingSoon title="Governance" />} />
               <Route path="activity" element={<ProductActivity />} />
             </Route>

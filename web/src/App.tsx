@@ -1,8 +1,11 @@
 import { NavLink, Route, Routes } from 'react-router-dom';
 import { CheckSquare, Home, Layers, LucideIcon, Package, ShieldCheck } from 'lucide-react';
+import { daysUntil } from './lib/dates';
+import { openActions } from './lib/derive';
 import { usePortfolio, usePortfolioActions } from './portfolio-context';
 import HomePage from './pages/Home';
 import Placeholder from './pages/Placeholder';
+import Actions from './pages/Actions';
 import ComingSoon from './pages/ComingSoon';
 import ProductActivity from './pages/ProductActivity';
 import ProductDevelopment from './pages/ProductDevelopment';
@@ -27,7 +30,9 @@ const NAV: NavItem[] = [
 ];
 
 export default function App() {
-  const { owner } = usePortfolio();
+  const portfolio = usePortfolio();
+  const { owner } = portfolio;
+  const overdue = openActions(portfolio).filter((a) => daysUntil(a.due) < 0).length;
   const { reset } = usePortfolioActions();
   const resetDemo = () => {
     if (window.confirm('Reset all demo data? Your changes in this browser will be lost.')) reset();
@@ -45,6 +50,7 @@ export default function App() {
           <NavLink key={to} to={to} end={to === '/'} className={({ isActive }) => `nav-link${isActive ? ' active' : ''}`}>
             <Icon size={18} />
             <span>{label}</span>
+            {to === '/actions' && overdue > 0 && <span className="nav-count hot" title="Overdue actions">{overdue}</span>}
           </NavLink>
         ))}
         <div className="side-foot">
@@ -65,7 +71,8 @@ export default function App() {
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/products" element={<Products />} />
-            {NAV.filter(({ to }) => to !== '/' && to !== '/products').map(({ to, title, question }) => (
+            <Route path="/actions" element={<Actions />} />
+            {NAV.filter(({ to }) => to !== '/' && to !== '/products' && to !== '/actions').map(({ to, title, question }) => (
               <Route key={to} path={to} element={<Placeholder title={title} question={question} />} />
             ))}
             <Route path="/products/:productId" element={<ProductLayout />}>

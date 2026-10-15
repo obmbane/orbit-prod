@@ -106,7 +106,7 @@ What every later epic builds on. Only the shared portfolio is built up front. Sh
 
 *Goal: one list of everything the Product Manager is personally responsible for.*
 
-- [ ] **E8-S1** *(brief #15)* As a Product Manager, I want to see my outstanding actions across all products, **so that** nothing I owe falls through the cracks and I can plan my week from one list.
+- [x] **E8-S1** *(brief #15)* As a Product Manager, I want to see my outstanding actions across all products, **so that** nothing I owe falls through the cracks and I can plan my week from one list.
   - Each action shows its product, priority, due date, source and status.
   - Selecting an action opens the relevant product context.
   - I can complete actions and add new ones.

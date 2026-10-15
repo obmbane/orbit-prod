@@ -194,10 +194,94 @@ h2 {
   padding: 16px 18px 10px;
 }
 
+/* Badges */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 9px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 550;
+  white-space: nowrap;
+}
+
+.badge .dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.tone-green {
+  color: #34d399;
+  background: rgba(52, 211, 153, 0.12);
+}
+
+.tone-amber {
+  color: #fbbf24;
+  background: rgba(251, 191, 36, 0.12);
+}
+
+.tone-red {
+  color: #f87171;
+  background: rgba(248, 113, 113, 0.13);
+}
+
+.tone-blue {
+  color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.tone-violet {
+  color: var(--violet);
+  background: rgba(167, 139, 250, 0.14);
+}
+
+.tone-grey {
+  color: var(--muted);
+  background: var(--surface-3);
+}
+
+.block {
+  display: block;
+}
+
+.attn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.attn .t {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Attention list */
+.item {
+  display: grid;
+  grid-template-columns: 110px 1fr 20px;
+  gap: 14px;
+  align-items: center;
+  padding: 12px 18px;
+  border-top: 1px solid var(--border);
+}
+
+a.item:hover {
+  background: var(--surface-2);
+}
+
+.item-title {
+  font-weight: 550;
+}
+
 /* Product list */
 .prow {
   display: grid;
-  grid-template-columns: minmax(170px, 1.1fr) 120px 150px minmax(200px, 2fr) 20px;
+  grid-template-columns: minmax(170px, 1.1fr) 120px 110px minmax(220px, 2fr) 80px 20px;
   gap: 16px;
   align-items: center;
   padding: 14px 18px;
@@ -294,6 +378,7 @@ a.prow:hover {
 
   .prow > :nth-child(3),
   .prow > :nth-child(4),
+  .prow > :nth-child(5),
   .prow.head {
     display: none;
   }

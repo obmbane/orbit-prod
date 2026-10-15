@@ -2,7 +2,8 @@ import { createContext, ReactNode, useContext, useEffect, useMemo, useState } fr
 import { createPortfolio, newProductRequirements, OWNER } from './data/portfolio';
 import { addDaysIso } from './lib/dates';
 import { uid } from './lib/format';
-import { ActionItem, ActivityEntry, Portfolio, Priority, Product } from './types';
+import { gateOf } from './lib/derive';
+import { ActionItem, ActivityEntry, DEV_STAGES, DevStage, Portfolio, Priority, Product, RequirementStatus } from './types';
 
 const STORAGE_KEY = 'orbit.portfolio.v1';
 
@@ -45,6 +46,13 @@ export interface NewActionInput {
 
 type Update = (portfolio: Portfolio) => Portfolio;
 
+const withLog = (product: Product, e: ActivityEntry): Product => ({ ...product, activity: [e, ...product.activity] });
+
+const mapProduct = (portfolio: Portfolio, id: string, fn: (p: Product) => Product): Portfolio => ({
+  ...portfolio,
+  products: portfolio.products.map((p) => (p.id === id ? fn(p) : p)),
+});
+
 function makeActions(update: (fn: Update) => void, replace: (portfolio: Portfolio) => void) {
   const newAction = (input: NewActionInput): ActionItem => ({
     ...input,
@@ -82,6 +90,83 @@ function makeActions(update: (fn: Update) => void, replace: (portfolio: Portfoli
       });
       update((p) => ({ ...p, products: [...p.products, product], actions: [...p.actions, first] }));
       return id;
+    },
+
+    setRequirementStatus(productId: string, stage: DevStage, requirementId: string, status: RequirementStatus, blockerNote?: string) {
+      update((portfolio) =>
+        mapProduct(portfolio, productId, (product) => {
+          const requirement = product.requirements[stage].find((r) => r.id === requirementId);
+          if (!requirement) return product;
+          const title =
+            status === 'complete'
+              ? `Completed: ${requirement.title}`
+              : status === 'blocked'
+                ? `Blocked: ${requirement.title}`
+                : `${requirement.title} is ${status === 'in-progress' ? 'in progress' : 'not started'}`;
+          return withLog(
+            {
+              ...product,
+              requirements: {
+                ...product.requirements,
+                [stage]: product.requirements[stage].map((r) =>
+                  r.id === requirementId ? { ...r, status, blockerNote: status === 'blocked' ? blockerNote : undefined } : r,
+                ),
+              },
+            },
+            entry('requirement', title, status === 'blocked' ? blockerNote : undefined),
+          );
+        }),
+      );
+    },
+
+    addEvidence(productId: string, stage: DevStage, requirementId: string, title: string) {
+      update((portfolio) =>
+        mapProduct(portfolio, productId, (product) =>
+          withLog(
+            {
+              ...product,
+              requirements: {
+                ...product.requirements,
+                [stage]: product.requirements[stage].map((r) =>
+                  r.id === requirementId
+                    ? { ...r, evidence: [...r.evidence, { id: uid(), title, addedBy: OWNER, addedAt: new Date().toISOString() }] }
+                    : r,
+                ),
+              },
+            },
+            entry('evidence', `Evidence added: ${title}`),
+          ),
+        ),
+      );
+    },
+
+    /** Moves a pre-launch product to its next stage, or launches it. Only works when every requirement is complete. */
+    advanceStage(productId: string) {
+      update((portfolio) =>
+        mapProduct(portfolio, productId, (product) => {
+          if (product.phase !== 'development' || !gateOf(product).ready) return product;
+          const index = DEV_STAGES.indexOf(product.devStage);
+          if (index === DEV_STAGES.length - 1) {
+            const now = new Date().toISOString();
+            return withLog(
+              { ...product, phase: 'live', maturity: 'Introduction', maturityConfirmedAt: now, launchedAt: now },
+              entry('stage', 'Launched', 'All launch requirements met. The product is now live, in Introduction.'),
+            );
+          }
+          const next = DEV_STAGES[index + 1];
+          return withLog({ ...product, devStage: next }, entry('stage', `Advanced to ${next}`, `${product.devStage} gate passed: every requirement complete.`));
+        }),
+      );
+    },
+
+    createAction(input: NewActionInput): string {
+      const action = newAction(input);
+      update((p) => ({ ...p, actions: [...p.actions, action] }));
+      return action.id;
+    },
+
+    setActionStatus(id: string, status: ActionItem['status']) {
+      update((p) => ({ ...p, actions: p.actions.map((a) => (a.id === id ? { ...a, status } : a)) }));
     },
   };
 }

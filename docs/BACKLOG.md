@@ -57,14 +57,14 @@ What every later epic builds on. Only the shared portfolio is built up front. Sh
 
 *Goal: the Product Manager takes a product from Idea to Launch through stage gates.*
 
-- [ ] **E4-S1** *(brief #6)* As a Product Manager, I want to see the development lifecycle visually, **so that** I immediately know where the product is, what is done and what remains.
+- [x] **E4-S1** *(brief #6)* As a Product Manager, I want to see the development lifecycle visually, **so that** I immediately know where the product is, what is done and what remains.
   - Idea → Business Case → Discovery → Approval → Development → Launch, showing done, current and upcoming stages.
-- [ ] **E4-S2** *(brief #7)* As a Product Manager, I want to see what is required to complete the current stage, **so that** I know exactly what is stopping the product from moving on.
+- [x] **E4-S2** *(brief #7)* As a Product Manager, I want to see what is required to complete the current stage, **so that** I know exactly what is stopping the product from moving on.
   - The current stage's requirements are listed with their status.
   - The screen states clearly how many blockers stand before the next stage.
-- [ ] **E4-S3** *(brief #8)* As a Product Manager, I want to complete stage-gate requirements, **so that** progress is backed by evidence and anyone can see why a product passed a gate.
+- [x] **E4-S3** *(brief #8)* As a Product Manager, I want to complete stage-gate requirements, **so that** progress is backed by evidence and anyone can see why a product passed a gate.
   - I can mark a requirement complete, add evidence, record a blocker and assign an action.
-- [ ] **E4-S4** *(brief #9)* As a Product Manager, I want to progress a product to the next stage, **so that** the product moves forward only when it is genuinely ready, and the decision is on record.
+- [x] **E4-S4** *(brief #9)* As a Product Manager, I want to progress a product to the next stage, **so that** the product moves forward only when it is genuinely ready, and the decision is on record.
   - Advancing is only possible when every requirement is complete.
   - Advancing from Launch makes the product live, in Introduction.
   - Each gate decision is recorded in the product's history.

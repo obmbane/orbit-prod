@@ -5,6 +5,7 @@ import HomePage from './pages/Home';
 import Placeholder from './pages/Placeholder';
 import ComingSoon from './pages/ComingSoon';
 import ProductActivity from './pages/ProductActivity';
+import ProductDevelopment from './pages/ProductDevelopment';
 import ProductLayout from './pages/ProductLayout';
 import ProductOverview from './pages/ProductOverview';
 import Products from './pages/Products';
@@ -70,7 +71,7 @@ export default function App() {
             <Route path="/products/:productId" element={<ProductLayout />}>
               <Route index element={<ProductOverview />} />
               <Route path="overview" element={<ProductOverview />} />
-              <Route path="development" element={<ComingSoon title="Development" />} />
+              <Route path="development" element={<ProductDevelopment />} />
               <Route path="lifecycle" element={<ComingSoon title="Lifecycle & Maturity" />} />
               <Route path="decision" element={<ComingSoon title="Lifecycle Decision" />} />
               <Route path="governance" element={<ComingSoon title="Governance" />} />

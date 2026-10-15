@@ -3,7 +3,7 @@ import { createPortfolio, newProductRequirements, OWNER } from './data/portfolio
 import { addDaysIso } from './lib/dates';
 import { uid } from './lib/format';
 import { gateOf } from './lib/derive';
-import { ActionItem, ActivityEntry, DEV_STAGES, DevStage, Portfolio, Priority, Product, RequirementStatus } from './types';
+import { ActionItem, ActivityEntry, DEV_STAGES, DevStage, MaturityStage, Portfolio, Priority, Product, RequirementStatus } from './types';
 
 const STORAGE_KEY = 'orbit.portfolio.v1';
 
@@ -155,6 +155,24 @@ function makeActions(update: (fn: Update) => void, replace: (portfolio: Portfoli
           }
           const next = DEV_STAGES[index + 1];
           return withLog({ ...product, devStage: next }, entry('stage', `Advanced to ${next}`, `${product.devStage} gate passed: every requirement complete.`));
+        }),
+      );
+    },
+
+    /** The Product Manager confirms (or overrides) the maturity stage. A changed stage reopens any lifecycle decision. */
+    confirmMaturity(productId: string, stage: MaturityStage, note?: string) {
+      update((portfolio) =>
+        mapProduct(portfolio, productId, (product) => {
+          const changed = product.maturity !== stage;
+          return withLog(
+            {
+              ...product,
+              maturity: stage,
+              maturityConfirmedAt: new Date().toISOString(),
+              lifecycleDecision: changed ? undefined : product.lifecycleDecision,
+            },
+            entry('maturity', `Maturity ${changed ? 'set to' : 'confirmed as'} ${stage}`, note),
+          );
         }),
       );
     },

@@ -73,10 +73,10 @@ What every later epic builds on. Only the shared portfolio is built up front. Sh
 
 *Goal: the Product Manager understands where a live product is in its maturity, and why.*
 
-- [ ] **E5-S1** *(brief #10)* As a Product Manager, I want to see a live product's maturity stage, **so that** I know whether it is growing, mature or declining and can plan accordingly, while staying accountable for the final classification.
+- [x] **E5-S1** *(brief #10)* As a Product Manager, I want to see a live product's maturity stage, **so that** I know whether it is growing, mature or declining and can plan accordingly, while staying accountable for the final classification.
   - A portfolio view shows every live product with its stage, direction of travel and whether a decision is outstanding.
   - The application recommends a stage ("appears to be in Growth"). I confirm it or set my own, and my choice is recorded.
-- [ ] **E5-S2** *(brief #11)* As a Product Manager, I want to see the evidence supporting that maturity assessment, **so that** I can trust it, challenge it, and explain it to others.
+- [x] **E5-S2** *(brief #11)* As a Product Manager, I want to see the evidence supporting that maturity assessment, **so that** I can trust it, challenge it, and explain it to others.
   - Revenue, growth, customers, margin, customer health, support burden, strategic relevance and competitive pressure are shown.
   - Each signal says which stage it points to and why, and whether it is improving or deteriorating.
 

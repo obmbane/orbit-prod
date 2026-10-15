@@ -6,6 +6,8 @@ import { usePortfolio, usePortfolioActions } from './portfolio-context';
 import HomePage from './pages/Home';
 import Placeholder from './pages/Placeholder';
 import Actions from './pages/Actions';
+import Lifecycle from './pages/Lifecycle';
+import ProductLifecycle from './pages/ProductLifecycle';
 import ComingSoon from './pages/ComingSoon';
 import ProductActivity from './pages/ProductActivity';
 import ProductDevelopment from './pages/ProductDevelopment';
@@ -72,14 +74,15 @@ export default function App() {
             <Route path="/" element={<HomePage />} />
             <Route path="/products" element={<Products />} />
             <Route path="/actions" element={<Actions />} />
-            {NAV.filter(({ to }) => to !== '/' && to !== '/products' && to !== '/actions').map(({ to, title, question }) => (
+            <Route path="/lifecycle" element={<Lifecycle />} />
+            {NAV.filter(({ to }) => to !== '/' && to !== '/products' && to !== '/actions' && to !== '/lifecycle').map(({ to, title, question }) => (
               <Route key={to} path={to} element={<Placeholder title={title} question={question} />} />
             ))}
             <Route path="/products/:productId" element={<ProductLayout />}>
               <Route index element={<ProductOverview />} />
               <Route path="overview" element={<ProductOverview />} />
               <Route path="development" element={<ProductDevelopment />} />
-              <Route path="lifecycle" element={<ComingSoon title="Lifecycle & Maturity" />} />
+              <Route path="lifecycle" element={<ProductLifecycle />} />
               <Route path="decision" element={<ComingSoon title="Lifecycle Decision" />} />
               <Route path="governance" element={<ComingSoon title="Governance" />} />
               <Route path="activity" element={<ProductActivity />} />

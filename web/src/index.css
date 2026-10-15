@@ -278,6 +278,144 @@ a.item:hover {
   font-weight: 550;
 }
 
+/* Sidebar footer */
+.side-foot {
+  margin-top: auto;
+  display: grid;
+  gap: 10px;
+  padding: 12px 10px 0;
+  border-top: 1px solid var(--border);
+}
+
+.persona {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--surface-3);
+  display: grid;
+  place-items: center;
+  font-weight: 600;
+  font-size: 12px;
+  border: 1px solid var(--border-strong);
+}
+
+.link-btn {
+  background: none;
+  border: 0;
+  padding: 0;
+  color: var(--faint);
+  font: inherit;
+  font-size: 12px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.link-btn:hover {
+  color: var(--text);
+  text-decoration: underline;
+}
+
+/* Dialogs and forms */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(4, 7, 12, 0.6);
+  z-index: 50;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  backdrop-filter: blur(2px);
+}
+
+.modal {
+  width: min(520px, calc(100% - 32px));
+  max-height: calc(100% - 48px);
+  overflow: auto;
+  background: var(--surface);
+  border: 1px solid var(--border-strong);
+  border-radius: 14px;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.35);
+}
+
+.modal header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border);
+}
+
+.modal-body {
+  padding: 20px;
+  display: grid;
+  gap: 16px;
+}
+
+.icon-btn {
+  background: none;
+  border: 0;
+  padding: 6px;
+  border-radius: 6px;
+  color: var(--muted);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+}
+
+.icon-btn:hover {
+  background: var(--surface-3);
+  color: var(--text);
+}
+
+.form {
+  display: grid;
+  gap: 16px;
+}
+
+label.field {
+  display: grid;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--muted);
+  font-weight: 500;
+}
+
+input,
+select,
+textarea {
+  font: inherit;
+  color: var(--text);
+  background: var(--surface-2);
+  border: 1px solid var(--border-strong);
+  border-radius: 8px;
+  padding: 8px 10px;
+  width: 100%;
+}
+
+textarea {
+  resize: vertical;
+}
+
+input:focus,
+select:focus,
+textarea:focus,
+button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+.foot {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
 /* Product page */
 .crumbs {
   font-size: 12px;
@@ -695,7 +833,9 @@ a.prow:hover {
   }
 
   .nav-link span,
-  .brand span:last-child {
+  .brand span:last-child,
+  .persona > span:last-child,
+  .link-btn {
     display: none;
   }
 

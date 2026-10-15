@@ -1,3 +1,4 @@
+import NewProductButton from '../components/NewProductButton';
 import ProductList from '../components/ProductList';
 import { usePortfolio } from '../portfolio-context';
 
@@ -13,6 +14,7 @@ export default function Products() {
           <h1>My Products</h1>
           <p className="subtitle">What products am I responsible for, and what stage is each in?</p>
         </div>
+        <NewProductButton />
       </div>
 
       <div className="stack">

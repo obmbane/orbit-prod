@@ -49,7 +49,7 @@ What every later epic builds on. Only the shared portfolio is built up front. Sh
 - [x] **E3-S1** *(brief #4)* As a Product Manager, I want to open a product and see its complete context, **so that** I can understand what it is, where it stands and what to do next without searching elsewhere.
   - A header always shows the product, its stage, its health and where it sits in the full lifecycle.
   - An overview shows the next action, open actions, governance reviews and recent activity.
-- [ ] **E3-S2** *(brief #5)* As a Product Manager, I want to create a new product, **so that** a new idea is managed from its first day and does not live in a side document.
+- [x] **E3-S2** *(brief #5)* As a Product Manager, I want to create a new product, **so that** a new idea is managed from its first day and does not live in a side document.
   - Name, summary and category are enough to create it.
   - It starts at Idea with the standard requirements and a first action.
 

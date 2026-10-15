@@ -35,7 +35,9 @@ function daysAgo(days: number): string {
 }
 
 let counter = 0;
-const nextId = (prefix: string) => `${prefix}${++counter}`;
+let seeding = false;
+/** Stable ids while building the seed; random ids afterwards, so new records never collide with saved ones. */
+const nextId = (prefix: string) => (seeding ? `${prefix}${++counter}` : `${prefix}${Math.random().toString(36).slice(2, 9)}`);
 
 // ---------------------------------------------------------------------------
 // Stage-gate requirements
@@ -540,5 +542,13 @@ function reviews(): Review[] {
 /** Builds a fresh copy of the dummy portfolio, with dates relative to today. */
 export function createPortfolio(): Portfolio {
   counter = 0;
-  return { owner: OWNER, products: products(), actions: actions(), reviews: reviews() };
+  seeding = true;
+  const portfolio: Portfolio = { owner: OWNER, products: products(), actions: actions(), reviews: reviews() };
+  seeding = false;
+  return portfolio;
+}
+
+/** The standard stage-gate requirements for a brand new product: everything not started. */
+export function newProductRequirements(): Record<DevStage, Requirement[]> {
+  return requirementsFor('Idea');
 }

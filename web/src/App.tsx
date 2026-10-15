@@ -1,5 +1,6 @@
 import { NavLink, Route, Routes } from 'react-router-dom';
 import { CheckSquare, Home, Layers, LucideIcon, Package, ShieldCheck } from 'lucide-react';
+import { usePortfolio, usePortfolioActions } from './portfolio-context';
 import HomePage from './pages/Home';
 import Placeholder from './pages/Placeholder';
 import ComingSoon from './pages/ComingSoon';
@@ -25,6 +26,11 @@ const NAV: NavItem[] = [
 ];
 
 export default function App() {
+  const { owner } = usePortfolio();
+  const { reset } = usePortfolioActions();
+  const resetDemo = () => {
+    if (window.confirm('Reset all demo data? Your changes in this browser will be lost.')) reset();
+  };
   return (
     <div className="app">
       <nav className="sidebar" aria-label="Main">
@@ -40,6 +46,18 @@ export default function App() {
             <span>{label}</span>
           </NavLink>
         ))}
+        <div className="side-foot">
+          <div className="persona">
+            <span className="avatar">{owner.split(' ').map((w) => w[0]).join('')}</span>
+            <span>
+              <span className="block">{owner}</span>
+              <span className="muted small">Product Manager</span>
+            </span>
+          </div>
+          <button className="link-btn" onClick={resetDemo}>
+            Reset demo data
+          </button>
+        </div>
       </nav>
       <main className="main">
         <div className="page">

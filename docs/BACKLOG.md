@@ -25,7 +25,7 @@ Within an epic, stories are built in order and each ships as its own small chang
 What every later epic builds on. Only the shared portfolio is built up front. Shared components and saved state are built inside the first story that needs them, so they are shaped by real screens.
 
 - [x] **E1-S1** As a Product Manager, I want to move between Orbit's main areas from one navigation bar, **so that** I always know where I am and can get to any area in one click. (PR #1, #3)
-- [ ] **E1-S2** As a Product Manager, I want every screen to show the same portfolio of realistic products, **so that** I can trust what I see and follow a product from one screen to the next.
+- [x] **E1-S2** As a Product Manager, I want every screen to show the same portfolio of realistic products, **so that** I can trust what I see and follow a product from one screen to the next. (PR #7)
 
 ## E2 · Portfolio & Home
 

@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { ChevronRight } from 'lucide-react';
 import { Badge } from '../components/Badges';
+import NewProductButton from '../components/NewProductButton';
 import ProductList from '../components/ProductList';
 import { allAttention, attentionFor } from '../lib/derive';
 import { plural } from '../lib/format';
@@ -41,6 +42,7 @@ export default function Home() {
               : 'Nothing needs your attention right now.'}
           </p>
         </div>
+        <NewProductButton />
       </div>
 
       <div className="stack">

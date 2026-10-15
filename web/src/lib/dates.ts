@@ -39,3 +39,12 @@ export function timeAgo(isoDateTime: string): string {
   const days = Math.round(hours / 24);
   return days < 30 ? `${days}d ago` : fmtDate(isoDateTime);
 }
+
+/** ISO date (yyyy-mm-dd), `days` from today. */
+export function addDaysIso(days: number): string {
+  const d = new Date();
+  d.setHours(12, 0, 0, 0);
+  d.setDate(d.getDate() + days);
+  const pad = (n: number) => String(n).padStart(2, '0');
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+}

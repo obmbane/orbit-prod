@@ -1,7 +1,12 @@
 import { NavLink, Route, Routes } from 'react-router-dom';
 import { CheckSquare, Home, Layers, LucideIcon, Package, ShieldCheck } from 'lucide-react';
+import { usePortfolio, usePortfolioActions } from './portfolio-context';
 import HomePage from './pages/Home';
 import Placeholder from './pages/Placeholder';
+import ComingSoon from './pages/ComingSoon';
+import ProductActivity from './pages/ProductActivity';
+import ProductLayout from './pages/ProductLayout';
+import ProductOverview from './pages/ProductOverview';
 import Products from './pages/Products';
 
 interface NavItem {
@@ -21,6 +26,11 @@ const NAV: NavItem[] = [
 ];
 
 export default function App() {
+  const { owner } = usePortfolio();
+  const { reset } = usePortfolioActions();
+  const resetDemo = () => {
+    if (window.confirm('Reset all demo data? Your changes in this browser will be lost.')) reset();
+  };
   return (
     <div className="app">
       <nav className="sidebar" aria-label="Main">
@@ -36,6 +46,18 @@ export default function App() {
             <span>{label}</span>
           </NavLink>
         ))}
+        <div className="side-foot">
+          <div className="persona">
+            <span className="avatar">{owner.split(' ').map((w) => w[0]).join('')}</span>
+            <span>
+              <span className="block">{owner}</span>
+              <span className="muted small">Product Manager</span>
+            </span>
+          </div>
+          <button className="link-btn" onClick={resetDemo}>
+            Reset demo data
+          </button>
+        </div>
       </nav>
       <main className="main">
         <div className="page">
@@ -45,7 +67,15 @@ export default function App() {
             {NAV.filter(({ to }) => to !== '/' && to !== '/products').map(({ to, title, question }) => (
               <Route key={to} path={to} element={<Placeholder title={title} question={question} />} />
             ))}
-            <Route path="/products/:productId/*" element={<Placeholder title="Product" question="What is the complete context for this product?" />} />
+            <Route path="/products/:productId" element={<ProductLayout />}>
+              <Route index element={<ProductOverview />} />
+              <Route path="overview" element={<ProductOverview />} />
+              <Route path="development" element={<ComingSoon title="Development" />} />
+              <Route path="lifecycle" element={<ComingSoon title="Lifecycle & Maturity" />} />
+              <Route path="decision" element={<ComingSoon title="Lifecycle Decision" />} />
+              <Route path="governance" element={<ComingSoon title="Governance" />} />
+              <Route path="activity" element={<ProductActivity />} />
+            </Route>
             <Route path="*" element={<Placeholder title="Not found" question="That page doesn't exist." />} />
           </Routes>
         </div>

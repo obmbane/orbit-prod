@@ -34,10 +34,10 @@ What every later epic builds on. Only the shared portfolio is built up front. Sh
 - [x] **E2-S1** *(brief #1)* As a Product Manager, I want to see all the products I'm responsible for in one place, **so that** I know what is in my portfolio without checking several tools. (PR #8)
   - Home has a My Products list showing every product with its name, category and summary.
   - Clicking a product opens it.
-- [ ] **E2-S2** *(brief #2)* As a Product Manager, I want to see the current stage of each product, **so that** I can tell at a glance whether it needs development work or a lifecycle decision.
+- [x] **E2-S2** *(brief #2)* As a Product Manager, I want to see the current stage of each product, **so that** I can tell at a glance whether it needs development work or a lifecycle decision. (PR #9)
   - Each product shows its stage: the development stage if it is pre-launch, the maturity stage if it is live.
   - A My Products page groups products into pre-launch and live.
-- [ ] **E2-S3** *(brief #3)* As a Product Manager, I want to know which products need my attention, **so that** I spend my time on what matters most today.
+- [x] **E2-S3** *(brief #3)* As a Product Manager, I want to know which products need my attention, **so that** I spend my time on what matters most today.
   - Each product shows its health, outstanding action and priority.
   - Home answers "What needs my attention today?" with a ranked list.
   - Each item says why (overdue action, decision required, stage gate, missing evidence) and links to where to act.

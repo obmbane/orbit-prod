@@ -6,7 +6,9 @@ import { usePortfolio, usePortfolioActions } from './portfolio-context';
 import HomePage from './pages/Home';
 import Placeholder from './pages/Placeholder';
 import Actions from './pages/Actions';
+import Governance from './pages/Governance';
 import Lifecycle from './pages/Lifecycle';
+import ProductGovernance from './pages/ProductGovernance';
 import ProductDecision from './pages/ProductDecision';
 import ProductLifecycle from './pages/ProductLifecycle';
 import ComingSoon from './pages/ComingSoon';
@@ -36,6 +38,7 @@ export default function App() {
   const portfolio = usePortfolio();
   const { owner } = portfolio;
   const overdue = openActions(portfolio).filter((a) => daysUntil(a.due) < 0).length;
+  const openReviews = portfolio.reviews.filter((r) => r.status !== 'decided').length;
   const { reset } = usePortfolioActions();
   const resetDemo = () => {
     if (window.confirm('Reset all demo data? Your changes in this browser will be lost.')) reset();
@@ -53,6 +56,7 @@ export default function App() {
           <NavLink key={to} to={to} end={to === '/'} className={({ isActive }) => `nav-link${isActive ? ' active' : ''}`}>
             <Icon size={18} />
             <span>{label}</span>
+            {to === '/governance' && openReviews > 0 && <span className="nav-count" title="Open reviews">{openReviews}</span>}
             {to === '/actions' && overdue > 0 && <span className="nav-count hot" title="Overdue actions">{overdue}</span>}
           </NavLink>
         ))}
@@ -76,7 +80,9 @@ export default function App() {
             <Route path="/products" element={<Products />} />
             <Route path="/actions" element={<Actions />} />
             <Route path="/lifecycle" element={<Lifecycle />} />
-            {NAV.filter(({ to }) => to !== '/' && to !== '/products' && to !== '/actions' && to !== '/lifecycle').map(({ to, title, question }) => (
+            <Route path="/governance" element={<Governance />} />
+            <Route path="/governance/:reviewId" element={<Governance />} />
+            {NAV.filter(({ to }) => to !== '/' && to !== '/products' && to !== '/actions' && to !== '/lifecycle' && to !== '/governance').map(({ to, title, question }) => (
               <Route key={to} path={to} element={<Placeholder title={title} question={question} />} />
             ))}
             <Route path="/products/:productId" element={<ProductLayout />}>
@@ -85,7 +91,7 @@ export default function App() {
               <Route path="development" element={<ProductDevelopment />} />
               <Route path="lifecycle" element={<ProductLifecycle />} />
               <Route path="decision" element={<ProductDecision />} />
-              <Route path="governance" element={<ComingSoon title="Governance" />} />
+              <Route path="governance" element={<ProductGovernance />} />
               <Route path="activity" element={<ProductActivity />} />
             </Route>
             <Route path="*" element={<Placeholder title="Not found" question="That page doesn't exist." />} />

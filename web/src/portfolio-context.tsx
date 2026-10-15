@@ -5,7 +5,7 @@ import { uid } from './lib/format';
 import { gateOf } from './lib/derive';
 import { newReview, normaliseDecision } from './lib/governance';
 import { GOVERNANCE_FOR_ACTION, recommend } from './lib/recommend';
-import { ActionItem, ActivityEntry, DEV_STAGES, DevStage, LifecycleAction, LifecycleDecision, MaturityStage, Portfolio, Priority, Product, RequirementStatus } from './types';
+import { ActionItem, ActivityEntry, DEV_STAGES, DevStage, LifecycleAction, LifecycleDecision, MaturityStage, Portfolio, Priority, Product, RequirementStatus, ReviewResult } from './types';
 
 const STORAGE_KEY = 'orbit.portfolio.v1';
 
@@ -232,6 +232,78 @@ function makeActions(update: (fn: Update) => void, replace: (portfolio: Portfoli
 
     reopenDecision(productId: string) {
       update((portfolio) => mapProduct(portfolio, productId, (p) => withLog({ ...p, lifecycleDecision: undefined }, entry('lifecycle', 'Lifecycle decision reopened'))));
+    },
+
+    attachEvidence(reviewId: string, evidenceId: string, fileName: string) {
+      update((portfolio) => ({
+        ...portfolio,
+        reviews: portfolio.reviews.map((r) => {
+          if (r.id !== reviewId) return r;
+          const item = r.evidence.find((e) => e.id === evidenceId);
+          return {
+            ...r,
+            evidence: r.evidence.map((e) => (e.id === evidenceId ? { ...e, provided: true, attachedAs: fileName } : e)),
+            log: [entry('evidence', `Evidence attached: ${item?.title}`, fileName), ...r.log],
+          };
+        }),
+      }));
+    },
+
+    updateReviewNotes(reviewId: string, notes: string) {
+      update((portfolio) => ({ ...portfolio, reviews: portfolio.reviews.map((r) => (r.id === reviewId ? { ...r, notes } : r)) }));
+    },
+
+    submitReview(reviewId: string) {
+      update((portfolio) => ({
+        ...portfolio,
+        reviews: portfolio.reviews.map((r) =>
+          r.id === reviewId ? { ...r, status: 'submitted', log: [entry('governance', `Submitted to ${r.forum}`), ...r.log] } : r,
+        ),
+      }));
+    },
+
+    /**
+     * Records the governance outcome. Follow-ups become actions. If approved, a requirement waiting on this decision is
+     * completed, and an approved retirement moves the product to Retirement.
+     */
+    recordDecision(reviewId: string, result: ReviewResult, rationale: string, followUps: string[]) {
+      update((portfolio) => {
+        const review = portfolio.reviews.find((r) => r.id === reviewId);
+        if (!review) return portfolio;
+        const approved = result === 'Approved' || result === 'Approved with conditions';
+        const at = new Date().toISOString();
+        const actions = followUps.map((title) =>
+          newAction({ productId: review.productId, title, priority: 'High', due: addDaysIso(10), source: `Governance: ${review.decision}`, link: `/governance/${review.id}` }),
+        );
+
+        let next: Portfolio = {
+          ...portfolio,
+          reviews: portfolio.reviews.map((r) =>
+            r.id === reviewId
+              ? { ...r, status: 'decided', outcome: { result, rationale, at }, log: [entry('governance', `Decision recorded: ${result}`, rationale), ...r.log] }
+              : r,
+          ),
+          actions: [...portfolio.actions, ...actions],
+        };
+
+        next = mapProduct(next, review.productId, (product) => {
+          let updated = withLog(product, entry('governance', `${review.decision}: ${result}`, rationale));
+          if (!approved) return updated;
+          const requirements = { ...updated.requirements };
+          for (const stage of DEV_STAGES) {
+            requirements[stage] = requirements[stage].map((q) =>
+              q.reviewId === reviewId
+                ? { ...q, status: 'complete' as const, blockerNote: undefined, evidence: [...q.evidence, { id: uid(), title: `Governance decision: ${result}`, addedBy: review.forum, addedAt: at }] }
+                : q,
+            );
+          }
+          updated = { ...updated, requirements };
+          if (/retirement|end-of-life/i.test(review.decision) && updated.phase === 'live')
+            updated = withLog({ ...updated, maturity: 'Retirement', maturityConfirmedAt: at }, entry('maturity', 'Maturity set to Retirement', 'Following governance approval.'));
+          return updated;
+        });
+        return next;
+      });
     },
 
     createAction(input: NewActionInput): string {

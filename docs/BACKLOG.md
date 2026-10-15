@@ -96,7 +96,7 @@ What every later epic builds on. Only the shared portfolio is built up front. Sh
 
 *Goal: the Product Manager gets the organisational decision they need, with the evidence to support it.*
 
-- [ ] **E7-S1** *(brief #14)* As a Product Manager, I want to prepare a product for a governance decision, **so that** I walk into the review with the evidence assembled, know what is missing beforehand, and the outcome is on record.
+- [x] **E7-S1** *(brief #14)* As a Product Manager, I want to prepare a product for a governance decision, **so that** I walk into the review with the evidence assembled, know what is missing beforehand, and the outcome is on record.
   - A review queue lists the decisions I need.
   - Each review brings together the metrics, risks, customer implications and recommendation, and flags missing evidence.
   - I can attach evidence, submit the review and record the outcome.

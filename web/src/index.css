@@ -159,6 +159,73 @@ a:focus-visible {
   color: var(--text);
 }
 
+.eyebrow {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--faint);
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.muted {
+  color: var(--muted);
+}
+
+.small {
+  font-size: 12px;
+}
+
+h2 {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.card.flush {
+  padding: 0;
+  overflow: hidden;
+}
+
+.card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 16px 18px 10px;
+}
+
+/* Product list */
+.prow {
+  display: grid;
+  grid-template-columns: minmax(180px, 1.1fr) 170px minmax(220px, 2fr) 20px;
+  gap: 16px;
+  align-items: center;
+  padding: 14px 18px;
+  border-top: 1px solid var(--border);
+}
+
+.prow.head {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--faint);
+  font-weight: 600;
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
+a.prow:hover {
+  background: var(--surface-2);
+}
+
+.pname {
+  font-weight: 600;
+}
+
+.chev {
+  color: var(--faint);
+}
+
 @media (max-width: 900px) {
   .app {
     grid-template-columns: 72px 1fr;
@@ -175,5 +242,15 @@ a:focus-visible {
 
   .page {
     padding: 20px 16px 48px;
+  }
+
+  .prow {
+    grid-template-columns: 1fr 20px;
+  }
+
+  .prow > :nth-child(2),
+  .prow > :nth-child(3),
+  .prow.head {
+    display: none;
   }
 }

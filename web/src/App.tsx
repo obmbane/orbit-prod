@@ -1,5 +1,6 @@
 import { NavLink, Route, Routes } from 'react-router-dom';
 import { CheckSquare, Home, Layers, LucideIcon, Package, ShieldCheck } from 'lucide-react';
+import HomePage from './pages/Home';
 import Placeholder from './pages/Placeholder';
 
 interface NavItem {
@@ -38,7 +39,8 @@ export default function App() {
       <main className="main">
         <div className="page">
           <Routes>
-            {NAV.map(({ to, title, question }) => (
+            <Route path="/" element={<HomePage />} />
+            {NAV.filter(({ to }) => to !== '/').map(({ to, title, question }) => (
               <Route key={to} path={to} element={<Placeholder title={title} question={question} />} />
             ))}
             <Route path="/products/:productId/*" element={<Placeholder title="Product" question="What is the complete context for this product?" />} />

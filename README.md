@@ -8,7 +8,7 @@ Orbit is a B2B SaaS application for Product Managers. It helps manage a product 
 
 ## Status
 
-Early stage. The current focus is a clickable UI prototype using dummy data. There is no backend or database yet.
+The clickable UI prototype is complete for the Product Manager: every area of the journey works end to end on dummy data. There is no backend or database yet. Next: containerise it and run it on Kubernetes, then add a real backend.
 
 ## Repository layout
 
@@ -17,7 +17,7 @@ Early stage. The current focus is a clickable UI prototype using dummy data. The
 | [`web/`](web/README.md) | UI prototype (Vite, React, TypeScript) |
 | [`docs/BACKLOG.md`](docs/BACKLOG.md) | Epics and user stories, and their status |
 | `.github/workflows/` | GitHub Actions CI |
-| `deploy/` | Kubernetes manifests. *Coming once the UI is settled.* |
+| `deploy/` | Kubernetes manifests. *Coming next.* |
 
 ## Workflow
 

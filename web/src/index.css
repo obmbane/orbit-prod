@@ -58,7 +58,7 @@ a:focus-visible {
 /* Layout */
 .app {
   display: grid;
-  grid-template-columns: 232px 1fr;
+  grid-template-columns: 232px minmax(0, 1fr);
   min-height: 100%;
 }
 
@@ -289,6 +289,10 @@ a.item:hover {
 
 .trend-flat {
   color: var(--faint);
+}
+
+.spark {
+  max-width: 100%;
 }
 
 .spark .line {
@@ -1213,6 +1217,7 @@ ul.clean li {
 
 .product-head {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: 14px;
 }
 
@@ -1286,6 +1291,7 @@ ul.clean li {
 }
 
 .kpi {
+  min-width: 0;
   display: grid;
   gap: 2px;
   padding: 12px;
@@ -1558,6 +1564,7 @@ a.prow:hover {
 
 .stack {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: 16px;
 }
 
@@ -1601,12 +1608,35 @@ a.prow:hover {
 }
 
 @media (max-width: 900px) {
+  .btn {
+    white-space: normal;
+    text-align: center;
+  }
+
+  .page-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .items .item {
+    grid-template-columns: 1fr 20px;
+  }
+
+  .items .item > .badge {
+    grid-column: 1 / -1;
+    justify-self: start;
+  }
+
   .stepper {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
   .gov {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .qitem > .row {
+    flex-wrap: wrap;
   }
 
   .kpis.wide {
@@ -1658,7 +1688,7 @@ a.prow:hover {
   }
 
   .app {
-    grid-template-columns: 72px 1fr;
+    grid-template-columns: 72px minmax(0, 1fr);
   }
 
   .nav-link span,
@@ -1685,5 +1715,11 @@ a.prow:hover {
   .prow > :nth-child(5),
   .prow.head {
     display: none;
+  }
+}
+
+@media (max-width: 600px) {
+  .stepper {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }

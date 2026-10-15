@@ -4,6 +4,7 @@ import { Badge } from '../components/Badges';
 import { MaturityPill } from '../components/StagePill';
 import TrendIcon from '../components/TrendIcon';
 import { assessMaturity } from '../lib/maturity';
+import { recommend } from '../lib/recommend';
 import { money, pct } from '../lib/format';
 import { usePortfolio } from '../portfolio-context';
 import { MATURITY_STAGES, Product } from '../types';
@@ -13,7 +14,7 @@ function decisionStatus(product: Product) {
   if (d && d.status !== 'investigating') return <Badge tone="green">{d.chosen ?? 'No action'} ({d.status})</Badge>;
   if (d) return <Badge tone="blue">Investigating</Badge>;
   if (product.maturity === 'Decline' || product.maturity === 'Retirement') return <Badge tone="red">Decision required</Badge>;
-  return <Badge>Review recommended</Badge>;
+  return <Badge>Recommended: {recommend(product, product.maturity ?? 'Introduction').action}</Badge>;
 }
 
 export default function Lifecycle() {

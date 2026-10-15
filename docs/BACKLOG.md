@@ -31,7 +31,7 @@ What every later epic builds on. Only the shared portfolio is built up front. Sh
 
 *Goal: the Product Manager sees every product they manage and what needs attention today.*
 
-- [ ] **E2-S1** *(brief #1)* As a Product Manager, I want to see all the products I'm responsible for in one place, **so that** I know what is in my portfolio without checking several tools.
+- [x] **E2-S1** *(brief #1)* As a Product Manager, I want to see all the products I'm responsible for in one place, **so that** I know what is in my portfolio without checking several tools. (PR #8)
   - Home has a My Products list showing every product with its name, category and summary.
   - Clicking a product opens it.
 - [ ] **E2-S2** *(brief #2)* As a Product Manager, I want to see the current stage of each product, **so that** I can tell at a glance whether it needs development work or a lifecycle decision.

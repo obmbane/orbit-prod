@@ -2,6 +2,10 @@ import { NavLink, Route, Routes } from 'react-router-dom';
 import { CheckSquare, Home, Layers, LucideIcon, Package, ShieldCheck } from 'lucide-react';
 import HomePage from './pages/Home';
 import Placeholder from './pages/Placeholder';
+import ComingSoon from './pages/ComingSoon';
+import ProductActivity from './pages/ProductActivity';
+import ProductLayout from './pages/ProductLayout';
+import ProductOverview from './pages/ProductOverview';
 import Products from './pages/Products';
 
 interface NavItem {
@@ -45,7 +49,15 @@ export default function App() {
             {NAV.filter(({ to }) => to !== '/' && to !== '/products').map(({ to, title, question }) => (
               <Route key={to} path={to} element={<Placeholder title={title} question={question} />} />
             ))}
-            <Route path="/products/:productId/*" element={<Placeholder title="Product" question="What is the complete context for this product?" />} />
+            <Route path="/products/:productId" element={<ProductLayout />}>
+              <Route index element={<ProductOverview />} />
+              <Route path="overview" element={<ProductOverview />} />
+              <Route path="development" element={<ComingSoon title="Development" />} />
+              <Route path="lifecycle" element={<ComingSoon title="Lifecycle & Maturity" />} />
+              <Route path="decision" element={<ComingSoon title="Lifecycle Decision" />} />
+              <Route path="governance" element={<ComingSoon title="Governance" />} />
+              <Route path="activity" element={<ProductActivity />} />
+            </Route>
             <Route path="*" element={<Placeholder title="Not found" question="That page doesn't exist." />} />
           </Routes>
         </div>
